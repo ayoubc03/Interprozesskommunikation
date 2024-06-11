@@ -11,11 +11,21 @@ def log ():
 
     verbindung = log_socket.accept() # Akzeptiert eingehende Daten sofort
 
-
+try:
     while True:
         messwert = verbindung.recv(4)  # Gesendeter Messwert wird in messwert gespeichert. 4 steht für 4 Bytes-Limit, da ein einziges INT gesendet wird.
         with open("log_datei/log.txt", "a") as f:  # messwert wird in log.txt geschrieben. Wichtig hier "a" für append statt "w" für write
             f.write(messwert + "\n")  # messwert und neue zeile für bessere sichtbarkeit in log.txt
-    
-    
-    
+
+
+except Exception as e:
+    print("Ein Fehler ist aufgetreten: ", e)
+
+
+finally: 
+        verbindung.close() # Verbindung schließen
+        log_socket.close() # Socket schließen 
+
+
+if __name__ == "__main___": # Ausführung des Python-Skripts
+    log()
