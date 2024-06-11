@@ -10,6 +10,6 @@ def conv ():
         log_socket.connect(("localhost", 8888))  # Log-Prozess hört auf Port 8888
         stat_socket.connect(("localhost", 8889))  # Stat-Prozess hört auf Port 8889
 
-    while True:
+        while True:
                 messung = random.randint(0, 100)
                 print("Generierte Messung:", messung)
