@@ -22,7 +22,7 @@ def conv ():
 
                     log_socket.sendall(str(messung).encode()) # Senden an Log
                     stat_socket.sendall(str(messung).encode()) # Senden an stat 
-                    time.sleep(1)   
+                    time.sleep(1)  # Eine Sekunde warten zwischen den Verbindungsversuchen
 
         
         except (ConnectionRefusedError, BrokenPipeError) as e: # Exception falls Verbindung nicht klappt
