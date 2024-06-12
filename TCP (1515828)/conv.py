@@ -4,15 +4,13 @@ import socket
 
 def conv ():
 
-    
+# Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
+    log_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    stat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     while True:
 
         try: # Es wird erst versucht eine Verbindung herzustellen, erst dann wird eine Zahl generiert
-
-            # Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
-            log_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            stat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
             log_socket.connect(("localhost", 8888))  # Log-Prozess listened auf Port 8888
             stat_socket.connect(("localhost", 8889))  # Stat-Prozess listened auf Port 8889
@@ -30,7 +28,14 @@ def conv ():
             print("Verbindung verloren, versuche erneut...", e)
             time.sleep(1)
         
-
         finally:
-            log_socket.close() # Log Socket schließen für Ressourcenfreigabe und Stabilität
-            stat_socket.close() # Stat Socket schließen für Ressourcenfreigabe und Stabilität
+            try:
+                log_socket.close()  # Log Socket schließen für Ressourcenfreigabe und Stabilität
+                stat_socket.close()  # Stat Socket schließen für Ressourcenfreigabe und Stabilität
+            except Exception as e:
+                print("Fehler beim Schließen der Sockets:", e)
+
+
+if __name__ == "__main__": # Verhindert, dass das Skript bei einem Import ausgeführt wird
+    conv()
+    
