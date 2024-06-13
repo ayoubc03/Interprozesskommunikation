@@ -14,7 +14,7 @@ def log ():
 
     while True:
         try:
-            messwert = verbindung.recv(8) # Gesendeter Messwert wird in messwert gespeichert. 4 steht für 4 Bytes-Limit, da ein einziges INT gesendet wird.
+            messwert = verbindung.recv(4) # Gesendeter Messwert wird in messwert gespeichert. 4 steht für 4 Bytes-Limit, da ein einziges INT gesendet wird.
             if not messwert:
                     print("Verbindung geschlossen vom Client")
                     break

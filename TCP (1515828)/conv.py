@@ -19,8 +19,8 @@ def conv ():
                     messung = random.randint(0, 100) # Random Messwert wird generiert 
                     print("Generierte Messung:", messung)
 
-                    log_socket.sendall(str(messung).encode()) # Senden an Log
-                    stat_socket.sendall(str(messung).encode()) # Senden an stat 
+                    log_socket.sendall(str(messung).encode()) # Senden an Log, Daten werden verschl+sselt
+                    stat_socket.sendall(str(messung).encode()) # Senden an stat Daten werden verschl+sselt
                     time.sleep(1)  # Eine Sekunde warten zwischen den Verbindungsversuchen
 
         
