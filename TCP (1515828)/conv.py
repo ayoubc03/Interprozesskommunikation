@@ -6,6 +6,7 @@ def conv ():
 
 # Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
     log_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+  
     stat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     while True:
