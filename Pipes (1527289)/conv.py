@@ -2,7 +2,7 @@ import random
 
 fifo_path = '/tmp/myfifo'
 
-def generate_measurement(fifo_path):
+def generiere_messwert(fifo_path):
 #Erzeugung der Zufallszahl(Messwert)
  messwert = random.randint(1,1000)
 
@@ -16,4 +16,4 @@ with open(fifo_path, 'w') as fifo:
 print(f"Messwert {messwert} wurde in den benannten Pipe '{fifo_path}' geschrieben.")   
 
 #Ausführen der Funktion
-generate_measurement()
+generiere_messwert()
