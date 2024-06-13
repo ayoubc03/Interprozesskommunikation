@@ -1,12 +1,12 @@
 import os
 
-fifo_path = '/tmp/myfifo'
+fifo_path1 = '/tmp/myfifo1'
 
 #Überprüfen, ob die benannte Pipe bereits existiert
-if not os.path.exists(fifo_path):
+if not os.path.exists(fifo_path1):
     #Erstellen der benannten Pipe
-    os.mkfifo(fifo_path)
-    print(f"Benannte Pipe '{fifo_path}' wurde erstellt.")
+    os.mkfifo(fifo_path1)
+    print(f"Benannte Pipe '{fifo_path1}' wurde erstellt.")
 else:
-    print(f"Benannte Pipe '{fifo_path}' existiert bereits.")    
+    print(f"Benannte Pipe '{fifo_path1}' existiert bereits.")    
     
