@@ -9,13 +9,14 @@ def report():
 
     try:
         while True:
-            daten = conn.recv(1024).decode()
-            if not daten:
+            daten = conn.recv(1024).decode() # daten werden von Stat empfangen
+            if not daten: # Falls Daten leer sind
                 break
-            print("Statistische Daten:", daten)
+            print("Statistische Daten:", daten) # Daten ausgeben
     except Exception as e:
         print("Ein Fehler ist aufgetreten:", e)
     finally:
+        #Sockets schließen, Ressourcen freigeben
         verbindung.close()
         report_socket.close()
 
