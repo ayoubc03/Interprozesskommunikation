@@ -11,7 +11,7 @@ def berechne_summe_und_mittelwert(fifo_path2, fifo_path3):
     
     while True:
         # Lesen der messwerte von der benannten Pipe
-        with open(fifo_path2, 'r') as fifo:
+        with open(fifo_path2, 'w') as fifo:
             messwert = fifo.read()
 
         messwert = int(messwert)
@@ -20,8 +20,18 @@ def berechne_summe_und_mittelwert(fifo_path2, fifo_path3):
         summe += messwert 
         anzahl += 1
         mittelwert= summe / anzahl 
-
         
-        time.sleep(1)  # Pause zwischen den Berechnungen
+        # Schreiben der Werte in die benannte Pipe
+        with open(fifo_path3, 'w') as fifo:
+            fifo.write(f"Summe: {summe}\n")
+            fifo.write(f"Mittelwert: {mittelwert}\n")
+
+        # Pause zwischen den Berechnungen
+        time.sleep(1) 
+        
+        if __name__ == '__main__':
+            while True:
+                berechne_summe_und_mittelwert(fifo_path2, fifo_path3)
+                
 
 
