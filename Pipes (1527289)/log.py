@@ -15,9 +15,8 @@ def messwert_in_datei(fifo_path, dateiname):
         if messwert:
             with open(dateiname, 'a') as datei:
                 datei.write(messwert + '\n')
-                print(f"Messwert {messwert} wurde in die Datei '{dateiname}' geschrieben.")
         
-        time.sleep(1)
+        time.sleep(2)
 
 if __name__ == '__main__':
     messwert_in_datei(fifo_path1, dateiname)
