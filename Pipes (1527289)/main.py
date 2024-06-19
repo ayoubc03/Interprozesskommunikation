@@ -1,7 +1,7 @@
 import os
 import time
 
-# Set the desired working directory
+# Aktuelles Vezeichnis für Start der Programme
 working_directory = '/home/adam-ibrahimkhel/IPC neu/Interprozesskommunikation/Pipes (1527289)'
 os.chdir(working_directory)
 
