@@ -5,25 +5,19 @@ fifo_path1 = '/tmp/myfifo1'
 dateiname = 'messwerte.txt'
 
 def messwert_in_datei(fifo_path, dateiname):
+    if not os.path.exists(fifo_path):
+        os.mkfifo(fifo_path)
+    
     while True:
-        # Lesen des Messwerts von der benannten Pipe
         with open(fifo_path, 'r') as fifo:
-            messwert = fifo.read().strip()
+            messwert = fifo.readline().strip()
         
-        # Messwert in die Datei schreiben
+        if messwert:
             with open(dateiname, 'a') as datei:
                 datei.write(messwert + '\n')
-                print(f"Die Datei '{dateiname}' wurde erstellt und der Messwert {messwert} wurde in die Datei geschrieben.")
-            
-            # Überprüfung, ob Messwert in die Datei geschrieben wurde
-            if os.path.exists(dateiname):
-                with open(dateiname, 'r') as datei:
-                    gespeicherterMesswert = datei.read()
-                   
-            else:
-                print('Die Datei/Der Messwert existiert nicht.')
+                print(f"Messwert {messwert} wurde in die Datei '{dateiname}' geschrieben.")
         
-        time.sleep(1)  # Pause zwischen den Operationen
+        time.sleep(1)
 
 if __name__ == '__main__':
     messwert_in_datei(fifo_path1, dateiname)

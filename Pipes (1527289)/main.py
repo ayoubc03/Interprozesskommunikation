@@ -1,6 +1,11 @@
 import os
 import time
 
+# Set the desired working directory
+working_directory = '/home/adam-ibrahimkhel/IPC neu/Interprozesskommunikation/Pipes (1527289)'
+os.chdir(working_directory)
+
+
 #Liste der zu startenden Prozesse
 prozesse = ['conv.py', 'log.py', 'stat.py', 'report.py']
 
