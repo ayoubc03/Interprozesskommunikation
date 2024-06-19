@@ -1,14 +1,27 @@
 import random
 import time
 import socket
+import signal
 
 def conv ():
-
+    def signal_handler(sig, frame):
+        print("\nBeende Conv-Prozess... ")
+        try:
+            if log_socket:
+                log_socket.close()
+            if stat_socket:
+                stat_socket.close()
+            print("Verbindung und Sockets [CONV] erfolgreich geschlossen.")
+        except Exception as e:
+            print("Fehler beim Schließen der Sockets:", e)
+        
+    signal.signal(signal.SIGINT, signal_handler)
 # Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
     log_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-  
-    stat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    log_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+    stat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    stat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     while True:
 
         try: # Es wird erst versucht eine Verbindung herzustellen, erst dann wird eine Zahl generiert
@@ -29,13 +42,7 @@ def conv ():
             print("Verbindung verloren, versuche erneut...", e)
             time.sleep(1)
         
-        finally:
-            try:
-                log_socket.close()  # Log Socket schließen für Ressourcenfreigabe und Stabilität
-                stat_socket.close()  # Stat Socket schließen für Ressourcenfreigabe und Stabilität
-            except Exception as e:
-                print("Fehler beim Schließen der Sockets:", e)
-
+    
 
 if __name__ == "__main__": # Verhindert, dass das Skript bei einem Import ausgeführt wird
     conv()

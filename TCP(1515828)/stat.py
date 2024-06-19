@@ -1,10 +1,29 @@
 import socket
+import signal
+import sys
+
 
 def stat():
+    def signal_handler(sig, frame):
+        print("\nBeende Stat-Prozess...")
+        try:
+            if verbindung:
+                verbindung.close()
+            if stat_socket:
+                stat_socket.close()
+            print("Verbindung und Socket [STAT] erfolgreich geschlossen.")
+        except Exception as e:
+            print("Fehler beim Schließen der Sockets:", e)
+        sys.exit(0)
+    
+    signal.signal(signal.SIGINT, signal_handler)
+
     # Stat Socket erstellen
     stat_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    stat_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     # Report Socket erstellen
     report_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    report_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     
     while True:
         
@@ -37,15 +56,11 @@ def stat():
         
         
         except Exception as e:
-            print("Ein Fehler ist aufgetreten:" , e)
+            print("Ein Fehler ist aufgetreten: [STAT]" , e)
 
 
     
-        finally:
-            verbindung.close()
-            stat_socket.close()
-            report_socket.close()
-
+       
 
 if __name__ == "__main__":
     stat()
