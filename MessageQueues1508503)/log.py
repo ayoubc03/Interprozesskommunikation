@@ -18,11 +18,11 @@ def log_process():
 
     while True:
         try:
-            # Empfang der Nachricht aus der Message Queue
+            # Empfang der Daten aus der Message Queue
             wert, _ = conv_queue.receive()
-            wert = wert.decode()  # Dekodieren der Nachricht von Bytes zu String
+            wert = wert.decode()  # Dekodieren der Daten von Bytes zu String
             
-            # Öffnen der Log-Datei im Anhangsmodus und Schreiben der empfangenen Nachricht
+            # Öffnen der Log-Datei im Anhangsmodus und Schreiben der empfangenen Daten
             with open("log.txt", "a") as logfile:
                 logfile.write(f"{wert}\n")
             print(f"Log: Messwert {wert} in die Datei geschrieben.")
