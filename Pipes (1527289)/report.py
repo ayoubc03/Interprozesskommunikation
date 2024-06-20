@@ -3,22 +3,19 @@ import time
 
 fifo_path3 = '/tmp/myfifo3'
 
-def ausgabe_ergebnisse(fifo_path):
-    if not os.path.exists(fifo_path):
-        os.mkfifo(fifo_path)
+def ausgabe_ergebnisse():
+    if not os.path.exists(fifo_path3):
+        os.mkfifo(fifo_path3)
     
     while True:
-        # Lesen der Ergebnisse aus der benannten Pipe
-        with open(fifo_path, 'r') as fifo:
+        # Öffne fifo_path3 zum Lesen der Ergebnisse
+        with open(fifo_path3, 'r') as fifo:
             ergebnisse = fifo.read().strip()
+            if ergebnisse:
+                print(f"Ergebnisse:\n{ergebnisse}\n-----------------")
         
-        print(f"Ergebnisse:\n{ergebnisse} \n -----------------")
-        
-        # Pause
-        time.sleep(1) 
+        # Kurze Pause, bevor erneut nach neuen Daten gesucht wird
+        time.sleep(1)
 
 if __name__ == '__main__':
-    while True:
-        ausgabe_ergebnisse(fifo_path3)
-       # Pause
-        time.sleep(1)  
+    ausgabe_ergebnisse()

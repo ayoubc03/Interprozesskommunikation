@@ -1,8 +1,13 @@
 import os
 import time
 
+# Aktuelles Vezeichnis für Start der Programme
+working_directory = '/home/adam-ibrahimkhel/IPC neu/Interprozesskommunikation/Pipes (1527289)'
+os.chdir(working_directory)
+
+
 #Liste der zu startenden Prozesse
-prozesse = ['conv.py', 'log.py', 'stat.py', 'report.py']
+prozesse = ['report.py', 'log.py', 'stat.py', 'conv.py']
 
 def runscript(scriptname):
     os.system(f'python3 {scriptname}')
@@ -26,4 +31,3 @@ if __name__ == '__main__':
 
         # Kurze Pause
         time.sleep(1)
-
