@@ -30,4 +30,3 @@ def log_process():
             time.sleep(2)  # Warten für 2 Sekunden
         except Exception as e:
             print("Ein Fehler ist aufgetreten: ", e)
-

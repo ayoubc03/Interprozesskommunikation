@@ -27,7 +27,3 @@ def conv():
             time.sleep(2)
         except Exception as e:
             print("Ein Fehler ist aufgetreten: ", e)
-
-if __name__ == "__main__":
-    conv()
-
