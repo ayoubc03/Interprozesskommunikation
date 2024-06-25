@@ -43,3 +43,4 @@ def stat_process():
         except Exception as e:
            
             print("Ein Fehler ist aufgetreten: ", e)
+            
