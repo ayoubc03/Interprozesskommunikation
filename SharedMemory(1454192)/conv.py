@@ -17,3 +17,4 @@ STAT_SHM_NAME = "/shm_stat"
 STAT_SEM_NAME = "/sem_stat"
 LOG_SHM_NAME = "/shm_log"
 LOG_SEM_NAME = "/sem_log"
+
