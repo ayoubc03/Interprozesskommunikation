@@ -30,4 +30,7 @@ def log_process():
             time.sleep(2)  # Warten für 2 Sekunden
         except Exception as e:
             print("Ein Fehler ist aufgetreten: ", e)
-            
+ 
+
+if __name__ == "__main__":
+    slog_process()
