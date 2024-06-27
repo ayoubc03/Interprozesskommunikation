@@ -3,9 +3,6 @@ import time
 import signal
 import sys
 
-# Aktuelles Vezeichnis für Start der Programme
-working_directory = '/home/adam-ibrahimkhel/IPC neu/Interprozesskommunikation/Pipes (1527289)'
-os.chdir(working_directory)
 
 
 #Liste der zu startenden Prozesse
