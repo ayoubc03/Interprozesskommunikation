@@ -1,24 +1,32 @@
 import os
 import time
+import signal
+import sys
 
 fifo_path3 = '/tmp/myfifo3'
 
-def ausgabe_ergebnisse(fifo_path):
-    if not os.path.exists(fifo_path):
-        os.mkfifo(fifo_path)
+def signal_handler(sig, frame):
+    sys.exit(0)
+
+def ausgabe_ergebnisse():
+    try:
+        if not os.path.exists(fifo_path3):
+            os.mkfifo(fifo_path3)
+    except Exception as e:
+        print(f"Error creating FIFO: {e}")
+        sys.exit(1)
     
     while True:
-        # Lesen der Ergebnisse aus der benannten Pipe
-        with open(fifo_path, 'r') as fifo:
-            ergebnisse = fifo.read().strip()
+        try:
+            with open(fifo_path3, 'r') as fifo:
+                ergebnisse = fifo.read().strip()
+                if ergebnisse:
+                    print(f"Ergebnisse:\n{ergebnisse}\n-----------------")
+        except Exception as e:
+            print(f"Error reading from FIFO: {e}")
         
-        print(f"Ergebnisse:\n{ergebnisse} \n -----------------")
-        
-        # Pause
-        time.sleep(1) 
+        time.sleep(1)
 
 if __name__ == '__main__':
-    while True:
-        ausgabe_ergebnisse(fifo_path3)
-       # Pause
-        time.sleep(1)  
+    signal.signal(signal.SIGINT, signal_handler)
+    ausgabe_ergebnisse()

@@ -1,38 +1,51 @@
 import os
-import statistics
 import time
+import signal
+import sys
 
 fifo_path2 = '/tmp/myfifo2'
 fifo_path3 = '/tmp/myfifo3'
 
-def berechne_summe_und_mittelwert(fifo_path2, fifo_path3):
+def signal_handler(sig, frame):
+    sys.exit(0)
+
+def berechne_summe_und_mittelwert():
+    try:
+        if not os.path.exists(fifo_path2):
+            os.mkfifo(fifo_path2)
+        if not os.path.exists(fifo_path3):
+             os.mkfifo(fifo_path3)
+    except Exception as e:
+        print(f"Fehler")
+        sys.exit(1)
+        
     
     summe = 0
     anzahl = 0 
     
     while True:
-        # Lesen der messwerte von der benannten Pipe
-        with open(fifo_path2, 'r') as fifo:
-            messwert = fifo.read()
-
-        messwert = int(messwert)
-
-        # Berechnung von Summe und Mittelwert der Messwerte
-        summe += messwert 
-        anzahl += 1
-        mittelwert= summe / anzahl 
+        try:
+        # Lesen der Messwerte von der benannten Pipe
+             with open(fifo_path2, 'r') as fifo2:
+                 messwerte = fifo2.readlines()
         
-        # Schreiben der Werte in die benannte Pipe
-        with open(fifo_path3, 'a') as fifo:
-            fifo.write(f"Summe: {summe}\n")
-            fifo.write(f"Mittelwert: {mittelwert}\n")
-
+             for messwert in messwerte:
+                 messwert = messwert.strip()
+                 if messwert:
+                  messwert = int(messwert)
+                  summe += messwert 
+                  anzahl += 1
+                  mittelwert = summe / anzahl 
+             with open(fifo_path3, 'w') as fifo:
+                fifo.write(f"Summe: {summe}\n")
+                fifo.write(f"Mittelwert: {mittelwert}\n")
+        except Exception as e:
+             print(f"Fehler")
+             
+        time.sleep(1)
         # Pause zwischen den Berechnungen
-        time.sleep(1) 
+            
         
-        if __name__ == '__main__':
-            while True:
-                berechne_summe_und_mittelwert(fifo_path2, fifo_path3)
-                
-
-
+if __name__ == '__main__':
+    signal.signal(signal.SIGINT, signal_handler)
+    berechne_summe_und_mittelwert()

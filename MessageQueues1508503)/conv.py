@@ -1,26 +1,42 @@
 import random
 import time
-from multiprocessing import Queue
-from log import log_process  # Importiere die log_process Funktion aus log.py
+import posix_ipc
+import sys
+import signal
 
-def conv(conv_queue):
+def conv():
+    # Erstelle die Message Queues
+    conv_queue = posix_ipc.MessageQueue("/conv_queue", posix_ipc.O_CREAT)
+    stat_queue = posix_ipc.MessageQueue("/stat_queue", posix_ipc.O_CREAT)
+
+    def signal_handler(sig, frame):
+        # Signalhandler für SIGINT (z.B. bei Ctrl+C)
+        print('Conv-Prozess beendet.')
+        # Schließe die Queues
+        conv_queue.close()
+        stat_queue.close()
+        # Lösche die Queues
+        posix_ipc.unlink_message_queue("/conv_queue")
+        posix_ipc.unlink_message_queue("/stat_queue")
+        # Beende den Prozess
+        sys.exit(0)
+
+    # Verbinde SIGINT-Signal mit dem signal_handler
+    signal.signal(signal.SIGINT, signal_handler)
+
     while True:
         try:
-            # Generiere eine Zufallszahl und füge sie in die Queue ein
-            zufallszahl = random.randint(0, 100)
-            conv_queue.put(zufallszahl)
-            print(f"Conv: Zufallszahl {zufallszahl} in die Queue eingefügt.")
-            time.sleep(2)  # Warte für 2 Sekunden
+            # Generiere eine Zufallszahl zwischen 1 und 100
+            zufallszahl = random.randint(1, 100)
+            # Sende die Zufallszahl an die conv_queue
+            conv_queue.send(str(zufallszahl))
+            # Sende die Zufallszahl an die stat_queue
+            stat_queue.send(str(zufallszahl))
+            # Gib die eingefügte Zufallszahl aus
+            print(f"Conv: Zufallszahl {zufallszahl} in die Queues eingefügt.")
+            # Warte für 2 Sekunden
+            time.sleep(2)
         except Exception as e:
+            # Gib einen Fehler aus, falls einer auftritt
             print("Ein Fehler ist aufgetreten: ", e)
-
-if __name__ == "__main__":
-    conv_queue = Queue()  # Erstelle eine Queue für die Kommunikation
-    # Starte den Log-Prozess als separaten Prozess
-    from multiprocessing import Process
-    log_proc = Process(target=log_process, args=(conv_queue,))
-    log_proc.start()
-    
-    # Starte den Conv-Prozess
-    conv(conv_queue)
-
+            

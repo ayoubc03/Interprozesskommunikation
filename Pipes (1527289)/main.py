@@ -1,13 +1,26 @@
 import os
 import time
+import signal
+import sys
+
+# Aktuelles Vezeichnis für Start der Programme
+working_directory = '/home/adam-ibrahimkhel/IPC neu/Interprozesskommunikation/Pipes (1527289)'
+os.chdir(working_directory)
+
 
 #Liste der zu startenden Prozesse
-prozesse = ['conv.py', 'log.py', 'stat.py', 'report.py']
+prozesse = ['report.py', 'log.py', 'stat.py', 'conv.py']
 
 def runscript(scriptname):
     os.system(f'python3 {scriptname}')
+    
+def signal_handler(sig, frame):
+    for pid in kprozessids:
+        os.kill(pid, signal.SIGINT)
+    sys.exit(0)
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, signal_handler)
 
     while True:
         # Durchlaufen der Prozesse und Erstellen der Kindprozesse
@@ -26,4 +39,3 @@ if __name__ == '__main__':
 
         # Kurze Pause
         time.sleep(1)
-
