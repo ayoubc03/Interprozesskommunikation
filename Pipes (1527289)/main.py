@@ -1,41 +1,26 @@
 import os
-import time
-import signal
 import sys
 
-# Aktuelles Vezeichnis für Start der Programme
-working_directory = '/home/adam-ibrahimkhel/IPC neu/Interprozesskommunikation/Pipes (1527289)'
-os.chdir(working_directory)
+script_dir = os.path.dirname(os.path.abspath(__file__)) # Returned den Pfad in dem sich das aktuelle Skript befindet
+programmes = ["log.py", "report.py", "stat.py", "conv.py"] # Alle Skripte in einer Liste
+programme_pfade = [os.path.join(script_dir, programme) for programme in programmes] # Fügt den absoluten Pfad den einzelnen Skripten hinzu. Dies klappt, da alle Skripte im selben Ordner sind
 
 
-#Liste der zu startenden Prozesse
-prozesse = ['report.py', 'log.py', 'stat.py', 'conv.py']
-
-def runscript(scriptname):
-    os.system(f'python3 {scriptname}')
+# Prozesse forken
+try:
+    for programme_pfad in programme_pfade:
+        pid = os.fork()
+        if pid == 0:
+            # Kindprozess: Ersetzen durch neues Skript
+            os.execlp("python3", "python3", programme_pfad)
+        # Sehr wichtig! Serverprozessen Zeit geben zu starten, bevor die Clientprozesse gestartet werden
+       
     
-def signal_handler(sig, frame):
-    for pid in kprozessids:
-        os.kill(pid, signal.SIGINT)
-    sys.exit(0)
-
-if __name__ == '__main__':
-    signal.signal(signal.SIGINT, signal_handler)
-
-    while True:
-        # Durchlaufen der Prozesse und Erstellen der Kindprozesse
-        kprozessids = []
-        for script in prozesse:
-            kprozessid = os.fork()
-            if kprozessid == 0:
-                runscript(script)
-                os._exit(0)
-            else:
-                kprozessids.append(kprozessid)
-
-        # Warten auf Abschluss der Kindprozesse
-        for kind in kprozessids:
-            os.wait()
-
-        # Kurze Pause
-        time.sleep(1)
+    # Warten auf alle Kindprozesse
+    for _ in range(len(programmes)):
+        os.waitpid(-1, 0)
+    
+    print("Alle Prozesse sind beendet.")
+except OSError as e:
+    print("Fork fehlgeschlagen:", e)
+    sys.exit(1)
