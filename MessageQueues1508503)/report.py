@@ -30,3 +30,6 @@ def report_process():
         except Exception as e:
             # Fehlermeldung ausgeben, falls ein Fehler auftritt
             print("Ein Fehler ist aufgetreten: ", e)
+
+if __name__ == "__main__":
+    report_process()

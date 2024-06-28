@@ -43,4 +43,11 @@ def stat_process():
         except Exception as e:
            
             print("Ein Fehler ist aufgetreten: ", e)
+
+if __name__ == "__main__":
+    stat_process()  
+                        
+            
+           
+            
             

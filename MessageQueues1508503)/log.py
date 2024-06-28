@@ -3,6 +3,14 @@ import posix_ipc
 import sys
 import signal
 
+def log ():
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    #Ordnerpfad and log.txt anhängen, damit die Datei im selben Ordner erstellt wird
+    log_pfad = os.path.join(script_dir, "log.txt")
+
+
+
+
 def log_process():
     # Erstellen oder Öffnen der Message Queue mit dem Namen "/conv_queue"
     conv_queue = posix_ipc.MessageQueue("/conv_queue", posix_ipc.O_CREAT)
@@ -30,4 +38,7 @@ def log_process():
             time.sleep(2)  # Warten für 2 Sekunden
         except Exception as e:
             print("Ein Fehler ist aufgetreten: ", e)
-            
+ 
+
+if __name__ == "__main__":
+    log_process()

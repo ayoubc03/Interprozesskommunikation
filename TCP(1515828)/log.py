@@ -7,7 +7,7 @@ import os
 
 def log ():
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Construct the full path to log.txt
+    #Ordnerpfad and log.txt anhängen, damit die Datei im selben Ordner erstellt wird
     log_pfad = os.path.join(script_dir, "log.txt")
 
     def signal_handler(sig, frame):
