@@ -29,3 +29,31 @@ stat_result_speicher = mmap.mmap(stat_result_shm.fd, stat_result_shm.size)
 # Schließen der Dateideskriptoren
 stat_shm.close_fd()
 stat_result_shm.close_fd()
+
+# Endlosschleife zur Berechnung der Werte
+werte = []
+while True:
+    stat_sem.acquire()
+    stat_speicher.seek(0)
+    daten = stat_speicher.read(1024).decode('utf-8').strip()
+    
+    # Wert aus dem Speicher lesen
+    try:
+        wert = int(daten.split()[0])
+    except (ValueError, IndexError):
+        continue
+    
+    werte.append(wert)
+    
+    mittelwert = sum(werte) / len(werte)
+    summe = sum(werte)
+    
+    result_daten = f"Mittelwert: {mittelwert}, Summe: {summe}\n"
+    
+    # Schreiben in das Shared-Memory
+    stat_result_speicher.seek(0)
+    stat_result_speicher.write(b'\x00' * 1024)  # Speicher mit Nullen überschreiben
+    stat_result_speicher.seek(0)
+    stat_result_speicher.write(result_daten.encode('utf-8'))
+    stat_result_speicher.flush()
+    stat_result_sem.release()
