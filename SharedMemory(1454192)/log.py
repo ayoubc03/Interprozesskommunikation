@@ -25,7 +25,7 @@ log_speicher = mmap.mmap(log_shm.fd, log_shm.size)
 log_shm.close_fd()
 
 # Endlosschleife zum Schreiben in die Datei
-with open("log.txt", "w", encoding="utf-8") as logfile:
+with open("log.txt", "a", encoding="utf-8") as logfile:
     while True:
         log_sem.acquire()
         log_speicher.seek(0)
