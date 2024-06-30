@@ -2,6 +2,7 @@ import random
 import time
 import socket
 import signal
+import sys
 
 def conv ():
     def signal_handler(sig, frame):
@@ -14,7 +15,7 @@ def conv ():
             print("Verbindung und Sockets [CONV] erfolgreich geschlossen.")
         except Exception as e:
             print("Fehler beim Schließen der Sockets:", e)
-        
+        sys.exit(0)
     signal.signal(signal.SIGINT, signal_handler)
 # Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
     log_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
