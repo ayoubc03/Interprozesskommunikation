@@ -1,7 +1,5 @@
 import os
-
-import signal
-import time
+import sys
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__)) # Returned den Pfad in dem sich das aktuelle Skript befindet
