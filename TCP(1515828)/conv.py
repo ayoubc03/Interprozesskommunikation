@@ -16,8 +16,10 @@ def conv ():
         except Exception as e:
             print("Fehler beim Schließen der Sockets:", e)
         sys.exit(0)
+
     signal.signal(signal.SIGINT, signal_handler)
-# Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
+    
+    # Zwei Sockets werden hier erstellt um die Verbindung zu Log und Stat zu gewährleisten
     log_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     log_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
