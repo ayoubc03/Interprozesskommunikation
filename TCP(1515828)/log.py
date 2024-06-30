@@ -1,6 +1,5 @@
 import signal
 import socket 
-import time 
 import sys
 import os
 
@@ -34,11 +33,11 @@ def log ():
 
     while True:
         try:
-            messwert = verbindung.recv(4) # Gesendeter Messwert wird in messwert gespeichert. 4 steht für 4 Bytes-Limit, da ein einziges INT gesendet wird.
+            messwert = verbindung.recv(4).decode() # Gesendeter Messwert wird in messwert gespeichert. 4 steht für 4 Bytes-Limit, da ein einziges INT gesendet wird.
             if not messwert:
                     print("Verbindung geschlossen vom Client")
                     break
-            messwert = messwert.decode() 
+            
             with open(log_pfad, "a") as f:  # messwert wird in log.txt geschrieben. Wichtig hier "a" für append statt "w" für write
                 f.write(messwert + "\n")  # messwert und neue zeile für bessere sichtbarkeit in log.txt
 
