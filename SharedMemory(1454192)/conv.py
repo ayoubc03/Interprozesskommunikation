@@ -18,7 +18,7 @@ STAT_SEM_NAME = "/sem_stat"
 LOG_SHM_NAME = "/shm_log"
 LOG_SEM_NAME = "/sem_log"
 
-# Erstellen oder Öffnen von Shared Memory und Semaphoren
+# Erstellen und Öffnen von Shared Memory und Semaphoren
 stat_shm = posix_ipc.SharedMemory(STAT_SHM_NAME, posix_ipc.O_CREAT, size=1024)
 stat_sem = posix_ipc.Semaphore(STAT_SEM_NAME, posix_ipc.O_CREAT, initial_value=0)
 log_shm = posix_ipc.SharedMemory(LOG_SHM_NAME, posix_ipc.O_CREAT, size=1024)
